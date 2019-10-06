@@ -1,8 +1,6 @@
 package lesson1;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.*;
 
 @SuppressWarnings("WeakerAccess")
 public class Sorts {
@@ -75,9 +73,33 @@ public class Sorts {
         }
     }
 
+    private static void heapifyDouble(List<Double> elements, int start, int length) {
+        int left = 2 * start + 1;
+        int right = left + 1;
+        int max = start;
+        if (left < length && elements.get(left) > elements.get(max)) {
+            max = left;
+        }
+        if (right < length && elements.get(right) > elements.get(max)) {
+            max = right;
+        }
+        if (max != start) {
+            double temp = elements.get(max);
+            elements.set(max, elements.get(start));
+            elements.set(start, temp);
+            heapifyDouble(elements, max, length);
+        }
+    }
+
     private static void buildHeap(int[] elements) {
         for (int start = elements.length / 2 - 1; start >= 0; start--) {
             heapify(elements, start, elements.length);
+        }
+    }
+
+    private static void buildHeapDouble(List<Double> elements) {
+        for (int start = elements.size() / 2 - 1; start >= 0; start--) {
+            heapifyDouble(elements, start, elements.size());
         }
     }
 
@@ -88,6 +110,16 @@ public class Sorts {
             elements[0] = elements[j];
             elements[j] = temp;
             heapify(elements, 0, j);
+        }
+    }
+
+    public static void heapSortDouble(List<Double> elements) {
+        buildHeapDouble(elements);
+        for (int j = elements.size() - 1; j >= 1; j--) {
+            Double temp = elements.get(0);
+            elements.set(0, elements.get(j));
+            elements.set(j, temp);
+            heapifyDouble(elements, 0, j);
         }
     }
 
@@ -141,4 +173,5 @@ public class Sorts {
         }
         return out;
     }
+
 }

@@ -1,6 +1,8 @@
 package lesson1
 
+import javafx.scene.effect.DropShadowBuilder
 import java.util.*
+import kotlin.collections.ArrayList
 
 private val random = Random(Calendar.getInstance().timeInMillis)
 
@@ -63,11 +65,13 @@ private fun heapify(elements: IntArray, start: Int, length: Int) {
     }
 }
 
+
 private fun buildHeap(elements: IntArray) {
     for (start in elements.size / 2 - 1 downTo 0) {
         heapify(elements, start, elements.size)
     }
 }
+
 
 fun heapSort(elements: IntArray) {
     buildHeap(elements)
@@ -128,6 +132,24 @@ fun countingSort(elements: IntArray, limit: Int): IntArray {
     }
     return out
 }
+
+fun countingSortDouble(elements: IntArray, limit: Int): IntArray {
+    val count = IntArray(limit + 1)
+    for (element in elements) {
+        count[element]++
+    }
+    for (j in 1..limit) {
+        count[j] += count[j - 1]
+    }
+    val out = IntArray(elements.size)
+    for (j in elements.indices.reversed()) {
+        out[count[elements[j]] - 1] = elements[j]
+        count[elements[j]]--
+    }
+    return out
+}
+
+
 
 /**
  * Библиотечные сортировки (приведены только для примера,

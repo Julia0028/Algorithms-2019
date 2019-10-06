@@ -2,6 +2,13 @@ package lesson1;
 
 import kotlin.NotImplementedError;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
+
 @SuppressWarnings("unused")
 public class JavaTasks {
     /**
@@ -97,9 +104,17 @@ public class JavaTasks {
      * 24.7
      * 99.5
      * 121.3
+     * Сложность = O(nlogn), Ресурсоемкость = R(n)
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortTemperatures(String inputName, String outputName) throws IOException {
+        List<Double> list = new ArrayList<>();
+        Writer out = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(outputName), StandardCharsets.UTF_8));
+        for (String line: Files.readAllLines(Paths.get(inputName))) list.add(Double.parseDouble(line)); //O(n)
+        Sorts.heapSortDouble(list); //O(nlogn)
+        for (Double aList : list) out.append(aList.toString()).append("\r\n"); //O(n)
+        out.flush();
+        out.close();
     }
 
     /**
@@ -130,9 +145,40 @@ public class JavaTasks {
      * 2
      * 2
      * 2
+     * Сложность = O(n), Ресуросемкость = R(n)
      */
-    static public void sortSequence(String inputName, String outputName) {
-        throw new NotImplementedError();
+    static public void sortSequence(String inputName, String outputName) throws IOException {
+
+        Map<Integer, Integer> map = new TreeMap<>();
+        //использую treeMap, так как в ключах храню числа, а в значениях - количетсво их повторений.
+        //Так как ключи сортируются по возрастанию, из 2 чисел с наибольшим количеством повторений будет выбрано
+        //минимальное из них
+        int a = 1;
+        StringBuilder sb = new StringBuilder();
+        int minKey;
+        Writer out = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(outputName), StandardCharsets.UTF_8));
+
+        for (String line : Files.readAllLines(Paths.get(inputName))) {
+            if (!map.containsKey(Integer.parseInt(line)))
+                map.put(Integer.parseInt(line), a);
+            else map.put(Integer.parseInt(line), map.get(Integer.parseInt(line)) + 1);
+        } //O(n)
+
+        minKey = Collections.max(map.entrySet(),
+                Comparator.comparingInt(Map.Entry::getValue)).getKey();//O(n)
+
+        for (int i=0; i< map.get(minKey); i++) sb.append(minKey).append("\n");
+        //O(a), где а - наибольшее количество повторений минимального значения, a =< n
+        for (String line: Files.readAllLines(Paths.get(inputName)))
+            if (!line.equals(String.valueOf(minKey))) out.write(line + "\n");
+            //O(n)
+
+        out.append(sb);
+
+        out.flush();
+        out.close();
+
     }
 
     /**
