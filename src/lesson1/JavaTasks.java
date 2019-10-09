@@ -107,25 +107,28 @@ public class JavaTasks {
      * Сложность = O(n), Ресурсоемкость = R(1)
      */
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
-
         int[] temp = new int[7731];
         Arrays.fill(temp, 0);
         Writer out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(outputName), StandardCharsets.UTF_8));
-        for (String line: Files.readAllLines(Paths.get(inputName))) {
-         int tempIndex = (int) (Double.parseDouble(line)*10);
-         temp[tempIndex+2730]++;
-        }//O(n)
-
-        for (int i=0; i<temp.length; i++) {
-            int a = temp[i];
-            while (a > 0) {
-                out.write((double) (i-2730)/10 + "\n");
-                a--; //O(a), где a - количество повторяющихся температур
+        try {
+            for (String line : Files.readAllLines(Paths.get(inputName))) {
+                int tempIndex = (int) (Double.parseDouble(line) * 10);
+                temp[tempIndex + 2730]++;
             }//O(n)
+
+            for (int i = 0; i < temp.length; i++) {
+                int a = temp[i];
+                while (a > 0) {
+                    out.write((double) (i - 2730) / 10 + "\n");
+                    a--; //O(a), где a - количество повторяющихся температур
+                }// O(n)
+            }
         }
-        out.flush();
-        out.close();
+        finally {
+            out.flush();
+            out.close();
+        }
     }
 
     /**
@@ -156,7 +159,7 @@ public class JavaTasks {
      * 2
      * 2
      * 2
-     * Сложность = O(n), Ресуросемкость = R(n)
+     * Сложность = O(logn), Ресуросемкость = R(n)
      */
     static public void sortSequence(String inputName, String outputName) throws IOException {
 
@@ -169,30 +172,30 @@ public class JavaTasks {
         int minKey;
         Writer out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(outputName), StandardCharsets.UTF_8));
+        try {
+            for (String line : Files.readAllLines(Paths.get(inputName))) {
+                int number = Integer.parseInt(line);
+                if (!map.containsKey(number)) map.put(number, a);
+                else map.put(number, map.get(number) + 1);
+            } //O(n)
 
-        for (String line : Files.readAllLines(Paths.get(inputName))) {
-            if (!map.containsKey(Integer.parseInt(line)))
-                map.put(Integer.parseInt(line), a);
-            else map.put(Integer.parseInt(line), map.get(Integer.parseInt(line)) + 1);
-        } //O(n)
+            minKey = Collections.max(map.entrySet(),
+                    Comparator.comparingInt(Map.Entry::getValue)).getKey();//O(n)
 
-        minKey = Collections.max(map.entrySet(),
-                Comparator.comparingInt(Map.Entry::getValue)).getKey();//O(n)
-        int b = map.get(minKey);
+            int b = map.get(minKey);
 
-        while(b > 0) {
-            sb.append(minKey).append("\n");
-            b--;
-        }//O(b), где b - наибольшее количество повторений минимального значения, b =< n
-        for (String line: Files.readAllLines(Paths.get(inputName)))
-            if (!line.equals(String.valueOf(minKey))) out.write(line + "\n");
-            //O(n)
-
-        out.append(sb);
-
-        out.flush();
-        out.close();
-
+            while (b > 0) {
+                sb.append(minKey).append("\n");
+                b--;
+            }//O(b), где b - наибольшее количество повторений минимального значения, b =< n
+            for (String line : Files.readAllLines(Paths.get(inputName)))
+                if (!line.equals(String.valueOf(minKey))) out.write(line + "\n");//O(n)
+            out.append(sb);
+        }
+        finally {
+            out.flush();
+            out.close();
+        }
     }
 
     /**
