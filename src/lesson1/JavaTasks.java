@@ -104,15 +104,26 @@ public class JavaTasks {
      * 24.7
      * 99.5
      * 121.3
-     * Сложность = O(nlogn), Ресурсоемкость = R(n)
+     * Сложность = O(n), Ресурсоемкость = R(1)
      */
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
-        List<Double> list = new ArrayList<>();
+
+        int[] temp = new int[7731];
+        Arrays.fill(temp, 0);
         Writer out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(outputName), StandardCharsets.UTF_8));
-        for (String line: Files.readAllLines(Paths.get(inputName))) list.add(Double.parseDouble(line)); //O(n)
-        Sorts.heapSortDouble(list); //O(nlogn)
-        for (Double aList : list) out.append(aList.toString()).append("\r\n"); //O(n)
+        for (String line: Files.readAllLines(Paths.get(inputName))) {
+         int tempIndex = (int) (Double.parseDouble(line)*10);
+         temp[tempIndex+2730]++;
+        }//O(n)
+
+        for (int i=0; i<temp.length; i++) {
+            int a = temp[i];
+            while (a > 0) {
+                out.write((double) (i-2730)/10 + "\n");
+                a--; //O(a), где a - количество повторяющихся температур
+            }//O(n)
+        }
         out.flush();
         out.close();
     }
@@ -167,9 +178,12 @@ public class JavaTasks {
 
         minKey = Collections.max(map.entrySet(),
                 Comparator.comparingInt(Map.Entry::getValue)).getKey();//O(n)
+        int b = map.get(minKey);
 
-        for (int i=0; i< map.get(minKey); i++) sb.append(minKey).append("\n");
-        //O(a), где а - наибольшее количество повторений минимального значения, a =< n
+        while(b > 0) {
+            sb.append(minKey).append("\n");
+            b--;
+        }//O(b), где b - наибольшее количество повторений минимального значения, b =< n
         for (String line: Files.readAllLines(Paths.get(inputName)))
             if (!line.equals(String.valueOf(minKey))) out.write(line + "\n");
             //O(n)
