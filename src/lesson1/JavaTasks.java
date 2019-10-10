@@ -108,7 +108,6 @@ public class JavaTasks {
      */
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
         int[] temp = new int[7731];
-        Arrays.fill(temp, 0);
         Writer out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(outputName), StandardCharsets.UTF_8));
         try {
