@@ -42,7 +42,6 @@ public class JavaAlgorithms {
     static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) throws IOException {
 
         ArrayList<Integer> list = new ArrayList<>();
-        Pair<Integer, Integer> pair;
         Pair<Integer, Integer> res;
 
         for (String line : Files.readAllLines(Paths.get(inputName)))
@@ -51,9 +50,7 @@ public class JavaAlgorithms {
         int[] delta = new int[list.size() - 1];
         for (int i = 0; i < list.size() - 2; i++) delta[i] = list.get(i + 1) - list.get(i);
 
-        pair = maxSubArray(delta, 0, delta.length - 1);
-
-        res = new Pair<>(pair.component1() + 1, pair.component2() + 2);
+        res = maxSubArray(delta, 0, delta.length - 1);
 
         return res;
     }
@@ -77,7 +74,7 @@ public class JavaAlgorithms {
                 minus = i;
             }
         }
-        return new Pair<>(firstInd, lastInd);
+        return new Pair<>(firstInd + 1, lastInd + 2);
     }
 
 
