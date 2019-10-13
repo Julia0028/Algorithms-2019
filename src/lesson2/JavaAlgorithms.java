@@ -2,7 +2,13 @@ package lesson2;
 
 import kotlin.NotImplementedError;
 import kotlin.Pair;
+import lesson1.Sorts;
 
+import java.awt.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -31,10 +37,50 @@ public class JavaAlgorithms {
      * Например, для приведённого выше файла результат должен быть Pair(3, 4)
      * <p>
      * В случае обнаружения неверного формата файла бросить любое исключение.
+     * Сложность = O(n), Ресурсоемкость = O(n)
      */
-    static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) {
-        throw new NotImplementedError();
+    static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) throws IOException {
+
+        ArrayList<Integer> list = new ArrayList<>();
+        Pair<Integer, Integer> pair;
+        Pair<Integer, Integer> res;
+
+        for (String line : Files.readAllLines(Paths.get(inputName)))
+            list.add(Integer.parseInt(line));
+
+        int[] delta = new int[list.size() - 1];
+        for (int i = 0; i < list.size() - 2; i++) delta[i] = list.get(i + 1) - list.get(i);
+
+        pair = maxSubArray(delta, 0, delta.length - 1);
+
+        res = new Pair<>(pair.component1() + 1, pair.component2() + 2);
+
+        return res;
     }
+
+
+    private static Pair<Integer, Integer> maxSubArray(int[] array, int first, int last) {
+        int sum = 0;
+        int maxSum = 0;
+        int firstInd = 0;
+        int lastInd = 0;
+        int minus = -1;
+        for (int i = first; i <= last; i++) {
+            sum += array[i];
+            if (sum > maxSum) {
+                maxSum = sum;
+                firstInd = minus + 1;
+                lastInd = i;
+            }
+            if (sum < 0) {
+                sum = 0;
+                minus = i;
+            }
+        }
+        return new Pair<>(firstInd, lastInd);
+    }
+
+
 
     /**
      * Задача Иосифа Флафия.

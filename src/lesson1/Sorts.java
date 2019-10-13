@@ -97,11 +97,7 @@ public class Sorts {
         }
     }
 
-    private static void buildHeapDouble(List<Double> elements) {
-        for (int start = elements.size() / 2 - 1; start >= 0; start--) {
-            heapifyDouble(elements, start, elements.size());
-        }
-    }
+
 
     public static void heapSort(int[] elements) {
         buildHeap(elements);
@@ -113,15 +109,7 @@ public class Sorts {
         }
     }
 
-    public static void heapSortDouble(List<Double> elements) {
-        buildHeapDouble(elements);
-        for (int j = elements.size() - 1; j >= 1; j--) {
-            Double temp = elements.get(0);
-            elements.set(0, elements.get(j));
-            elements.set(j, temp);
-            heapifyDouble(elements, 0, j);
-        }
-    }
+
 
     private static final Random random = new Random(Calendar.getInstance().getTimeInMillis());
 
