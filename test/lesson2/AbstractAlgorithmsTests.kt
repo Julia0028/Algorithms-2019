@@ -43,6 +43,7 @@ abstract class AbstractAlgorithmsTests {
         return minIndex + 1 to maxIndex + 1
     }
 
+
     fun optimizeBuyAndSell(optimizeBuyAndSell: (String) -> Pair<Int, Int>) {
         assertEquals(3 to 4, optimizeBuyAndSell("input/buysell_in1.txt"))
         assertEquals(8 to 12, optimizeBuyAndSell("input/buysell_in2.txt"))
