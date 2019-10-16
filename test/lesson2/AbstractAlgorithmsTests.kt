@@ -1,5 +1,6 @@
 package lesson2
 
+import org.junit.jupiter.api.Assertions.assertThrows
 import java.io.BufferedWriter
 import java.io.File
 import java.util.*
@@ -46,6 +47,7 @@ abstract class AbstractAlgorithmsTests {
         assertEquals(3 to 4, optimizeBuyAndSell("input/buysell_in1.txt"))
         assertEquals(8 to 12, optimizeBuyAndSell("input/buysell_in2.txt"))
         assertEquals(3 to 4, optimizeBuyAndSell("input/buysell_in3.txt"))
+        assertThrows(IllegalArgumentException::class.java) { optimizeBuyAndSell("input/buysell_in4.txt") }
         try {
             val expectedAnswer = generatePrices(1000)
             assertEquals(expectedAnswer, optimizeBuyAndSell("temp_prices.txt"))

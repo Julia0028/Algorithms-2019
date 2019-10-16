@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.IllegalFormatException;
 import java.util.Set;
 
 @SuppressWarnings("unused")
@@ -37,20 +38,25 @@ public class JavaAlgorithms {
      * Например, для приведённого выше файла результат должен быть Pair(3, 4)
      * <p>
      * В случае обнаружения неверного формата файла бросить любое исключение.
-     * Сложность = O(n), Ресурсоемкость = O(n)
+     * Сложность = O(n), Ресурсоемкость = R(n)
      */
     static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) throws IOException {
 
         ArrayList<Integer> list = new ArrayList<>();
         Pair<Integer, Integer> res;
 
-        for (String line : Files.readAllLines(Paths.get(inputName)))
-            list.add(Integer.parseInt(line));
+        for (String line : Files.readAllLines(Paths.get(inputName))) {
+            int cost = Integer.parseInt(line);
+            list.add(cost);
+            if (cost < 0) throw new IllegalArgumentException();
+        } //O(n)
+
 
         int[] delta = new int[list.size() - 1];
-        for (int i = 0; i < list.size() - 2; i++) delta[i] = list.get(i + 1) - list.get(i);
+        for (int i = 0; i < list.size() - 2; i++)
+            delta[i] = list.get(i + 1) - list.get(i);//O(n-1)
 
-        res = maxSubArray(delta, 0, delta.length - 1);
+        res = maxSubArray(delta, 0, delta.length - 1);//O(n)
 
         return res;
     }
@@ -68,7 +74,7 @@ public class JavaAlgorithms {
                 maxSum = sum;
                 firstInd = minus + 1;
                 lastInd = i;
-            }
+            }//O(n)
             if (sum < 0) {
                 sum = 0;
                 minus = i;
@@ -142,7 +148,7 @@ public class JavaAlgorithms {
      * При сравнении подстрок, регистр символов *имеет* значение.
      * Если имеется несколько самых длинных общих подстрок одной длины,
      * вернуть ту из них, которая встречается раньше в строке first.
-     * Сложность = O(n*m), Ресурсоемкость = O(m), где n - длина first, m - длина second
+     * Сложность = O(n*m), Ресурсоемкость = R(1), где n - длина first, m - длина second
      */
     static public String longestCommonSubstring(String first, String second) {
        /*попытка решить задачу без запоминания матрицы
@@ -190,7 +196,7 @@ public class JavaAlgorithms {
             int[] swap = mas1;
             mas1 = mas2;
             mas2 = swap;
-        }
+        } //O(n*m)
 
         if (firstInd != -1) res = first.substring(firstInd, lastInd);
         else res = "";

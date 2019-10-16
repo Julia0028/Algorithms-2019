@@ -176,10 +176,10 @@ public class JavaTasks {
                 int number = Integer.parseInt(line);
                 if (!map.containsKey(number)) map.put(number, a);
                 else map.put(number, map.get(number) + 1);
-            } //O(n)
+            } //O(logn)
 
             minKey = Collections.max(map.entrySet(),
-                    Comparator.comparingInt(Map.Entry::getValue)).getKey();//O(n)
+                    Comparator.comparingInt(Map.Entry::getValue)).getKey();//O(logn)
 
             int b = map.get(minKey);
 

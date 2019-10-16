@@ -143,13 +143,18 @@ abstract class AbstractTaskTests : AbstractFileTests() {
             assertFileContent(
                 "temp.txt",
                 """
+                    -273.0
+                    -273.0
                     -15.0
                     1.0
                     1.0
                     1.0
+                    12.0
                     13.0
+                    22.0
                     24.0
                     24.0
+                    500.0
                 """.trimIndent()
             )
         } finally {
