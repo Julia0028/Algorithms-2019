@@ -158,7 +158,7 @@ public class JavaTasks {
      * 2
      * 2
      * 2
-     * Сложность = O(logn), Ресуросемкость = R(n)
+     * Сложность = O(nlogn), Ресуросемкость = R(n)
      */
     static public void sortSequence(String inputName, String outputName) throws IOException {
 
@@ -172,9 +172,9 @@ public class JavaTasks {
         Writer out = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(outputName), StandardCharsets.UTF_8));
         try {
-            for (String line : Files.readAllLines(Paths.get(inputName))) {
+            for (String line : Files.readAllLines(Paths.get(inputName))) { //O(n)
                 int number = Integer.parseInt(line);
-                if (!map.containsKey(number)) map.put(number, a);
+                if (!map.containsKey(number)) map.put(number, a); //O(nlogn)
                 else map.put(number, map.get(number) + 1);
             } //O(logn)
 
