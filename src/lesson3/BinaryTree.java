@@ -1,6 +1,5 @@
 package lesson3;
 
-import com.sun.xml.internal.bind.api.TypeReference;
 import kotlin.NotImplementedError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
