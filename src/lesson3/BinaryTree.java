@@ -1,5 +1,6 @@
 package lesson3;
 
+import com.sun.xml.internal.bind.api.TypeReference;
 import kotlin.NotImplementedError;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         Node(T value) {
             this.value = value;
         }
+
     }
 
     private Node<T> root = null;
@@ -68,17 +70,63 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         return 1 + Math.max(height(node.left), height(node.right));
     }
 
+
     /**
      * Удаление элемента в дереве
      * Средняя
      */
+    //обращалась к https://neerc.ifmo.ru/wiki/index.php?title=Дерево_поиска_наивная_реализация#
+    //рекурсивный метод
+    //Сложность: O(h), h - высота дерева, Ресурсоемкость: O(1)
     @Override
     public boolean remove(Object o) {
-        // TODO
-        throw new NotImplementedError();
+        //есть ли у нас дерево и содержится ли в нем удаляемый объект
+        if (!contains(o) || size == 1) return false;
+        //привели o к value и создали объект узла для удаления
+        T delValue = (T) o;
+        Node<T> delNode = new Node<>(delValue);
+        root = del(root, delNode);
+        size--;
+        return true;
     }
 
-    @Override
+    private Node<T> del(Node<T> root, Node<T> o) {
+        if (root == null) return root;
+        int compare = root.value.compareTo(o.value);
+        if (compare > 0) root.left = del(root.left, o);//удаление из левого поддерева
+        if (compare < 0) root.right = del(root.right, o);//из правого
+        if (compare == 0)  root = delRoot(root);//метод для удлаления элемента, который находится в корне
+        return root;
+    }
+
+    private Node<T> delRoot (Node <T> root) {
+        //я не могу менять значениу value у root, поэтому создаю новый объект, присваиваю нужное значение value,
+        // при этом поддеревья остаются как у root,  затем ссылку на новый объект копирую в root
+        Node<T> node;
+        //если 2 дочерних узла
+        if (root.left != null && root.right != null) {
+                node = new Node<>(minNode(root.right).value);
+                node.right = root.right;
+                node.left = root.left;
+                root = node;
+                root.right = del(root.right, root);
+            } //если 1 дочерний узел
+            else if (root.left != null) root = root.left;
+            else root = root.right;
+            return root;
+        }
+
+
+
+    private Node<T> minNode(Node<T> x){
+        while (x.left != null) {
+            x = x.left;
+        }
+        return x;
+    }
+
+
+            @Override
     public boolean contains(Object o) {
         @SuppressWarnings("unchecked")
         T t = (T) o;
@@ -107,46 +155,66 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     }
 
     public class BinaryTreeIterator implements Iterator<T> {
+        //использую linkedlist, т. к только вставка/удаление за константное время
+        private LinkedList<Node<T>> list = new LinkedList<>();
+        private Node<T> current = null;
 
-        private BinaryTreeIterator() {
-            // Добавьте сюда инициализацию, если она необходима
+
+        private BinaryTreeIterator(Node<T> node) {
+            addToList(node);
         }
+
+        private void addToList(Node<T> node) {
+            while (node != null) {
+                list.addFirst(node);
+                node = node.left;
+            }
+        }
+
 
         /**
          * Проверка наличия следующего элемента
          * Средняя
          */
+
+
         @Override
         public boolean hasNext() {
-            // TODO
-            throw new NotImplementedError();
+            if (list.isEmpty()) return false;
+            return true;
         }
 
         /**
          * Поиск следующего элемента
          * Средняя
          */
+        //Сложность: O(1), рексурсоемкость: O(N)
         @Override
         public T next() {
-            // TODO
-            throw new NotImplementedError();
+            current = list.getFirst();
+            list.removeFirst();
+            addToList(current.right);
+            return current.value;
+
         }
+
 
         /**
          * Удаление следующего элемента
          * Сложная
          */
+        //Сложность: О(N), ресурсоемкость: O(1)
         @Override
         public void remove() {
-            // TODO
-            throw new NotImplementedError();
+            root = del(root, current);
+            size--;
         }
     }
 
     @NotNull
     @Override
     public Iterator<T> iterator() {
-        return new BinaryTreeIterator();
+        return new BinaryTreeIterator(root);
     }
 
     @Override
