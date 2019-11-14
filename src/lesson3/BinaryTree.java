@@ -80,7 +80,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     @Override
     public boolean remove(Object o) {
         //есть ли у нас дерево и содержится ли в нем удаляемый объект
-        if (!contains(o) || size == 1) return false;
+        if (root == null || o == null) return false;
+        if (!contains(o)) return false;
         //привели o к value и создали объект узла для удаления
         T delValue = (T) o;
         Node<T> delNode = new Node<>(delValue);
@@ -90,7 +91,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     }
 
     private Node<T> del(Node<T> root, Node<T> o) {
-        if (root == null) return root;
+        if (root == null || o == null) return null;
         int compare = root.value.compareTo(o.value);
         if (compare > 0) root.left = del(root.left, o);//удаление из левого поддерева
         if (compare < 0) root.right = del(root.right, o);//из правого
@@ -176,7 +177,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Средняя
          */
 
-
+        //Сложность: O(N), рексурсоемкость: O(1)
         @Override
         public boolean hasNext() {
             if (list.isEmpty()) return false;
@@ -187,7 +188,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
-        //Сложность: O(1), рексурсоемкость: O(N)
+        //Сложность: O(N), рексурсоемкость: O(1)
         @Override
         public T next() {
             current = list.getFirst();
@@ -202,7 +203,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Удаление следующего элемента
          * Сложная
          */
-        //Сложность: О(N), ресурсоемкость: O(1)
+        //Сложность: О(h), ресурсоемкость: O(1)
         @Override
         public void remove() {
             root = del(root, current);

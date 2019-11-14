@@ -3,6 +3,7 @@ package lesson3
 import org.junit.jupiter.api.Tag
 import kotlin.test.Test
 import java.util.*
+import kotlin.NoSuchElementException
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -34,6 +35,18 @@ class BinaryTreeTest {
         assertEquals(1, tree.first())
         assertEquals(20, tree.last())
     }
+
+    /* @Test
+    fun identicalTest() {
+        val binaryTree = BinaryTree<Int>()
+        binaryTree.add(500)
+        binaryTree.add(103)
+        binaryTree.add(104)
+        binaryTree.add(1000)
+        binaryTree.add(3)
+        binaryTree.add(10333)
+
+    }*/
 
     @Test
     @Tag("Example")
@@ -82,6 +95,26 @@ class BinaryTreeTest {
                 "After removal of $toRemove from $list binary tree height increased"
             )
         }
+        //тесты
+        //удаляем элемент из пустого дерева
+        val binarySet = create()
+        assertFalse(binarySet.remove(990))
+        assertEquals(0, binarySet.size)
+
+        //добавляем null
+        //binarySet += null
+        binarySet += 1
+        binarySet += 2
+        assertTrue(binarySet.remove(1))
+        assertEquals(1, binarySet.size)
+        //удаляем null
+        assertFalse(binarySet.remove(null))
+
+        //удаляем несуществующий элемент
+        binarySet += 4
+        binarySet += 7
+        assertFalse(binarySet.remove(11))
+        assertEquals(3, binarySet.size)
     }
 
     @Test
@@ -127,6 +160,34 @@ class BinaryTreeTest {
                 )
             }
         }
+        //Тесты
+        //Выход за границы дерева
+        val binarySet = create()
+        val iterator = binarySet.iterator()
+        binarySet += 445
+        binarySet += 43
+        binarySet += 32
+        try {
+            for (element in 0..binarySet.size)
+                iterator.next()
+        } catch (exception: NoSuchElementException) {
+        } finally {
+            assertFalse(iterator.hasNext())
+        }
+
+        binarySet.remove(445)
+        binarySet.remove(32)
+        binarySet.remove(43)
+
+        //итератор проходится по пустому дереву
+        try {
+            for (element in 1..binarySet.size)
+                iterator.next()
+        } catch (exception: NoSuchElementException) {
+        } finally {
+            assertFalse(iterator.hasNext())
+        }
+
     }
 
     @Test
@@ -183,6 +244,32 @@ class BinaryTreeTest {
                 )
             }
             assertTrue(binarySet.checkInvariant(), "Binary tree invariant is false after tree.iterator().remove()")
+        }
+
+        //Тесты
+        //Итератор в пустом дереве
+        val binarySet = create()
+        val iterator = binarySet.iterator()
+        try {
+            iterator.remove()
+        } catch (exception: NoSuchElementException) {
+        } finally {
+            assertFalse(iterator.hasNext())
+        }
+
+        //Когда удалили последний элемент в дереве
+        binarySet += 3
+        binarySet += 4
+        val iterator1 = binarySet.iterator()
+        iterator1.next()
+        iterator1.remove()
+        assertEquals(4, iterator1.next())
+        iterator1.remove()
+        try {
+            iterator1.remove()
+        } catch (exception: NoSuchElementException) {
+        } finally {
+            assertFalse(iterator1.hasNext())
         }
     }
 
