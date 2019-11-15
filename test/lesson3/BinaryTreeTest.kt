@@ -102,7 +102,6 @@ class BinaryTreeTest {
         assertEquals(0, binarySet.size)
 
         //добавляем null
-        //binarySet += null
         binarySet += 1
         binarySet += 2
         assertTrue(binarySet.remove(1))

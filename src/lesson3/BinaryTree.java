@@ -155,13 +155,14 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     }
 
     public class BinaryTreeIterator implements Iterator<T> {
-        //использую linkedlist, т. к только вставка/удаление за константное время
+
         private LinkedList<Node<T>> list = new LinkedList<>();
         private Node<T> current = null;
 
 
         private BinaryTreeIterator(Node<T> node) {
             addToList(node);
+
         }
 
         private void addToList(Node<T> node) {
@@ -170,6 +171,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                 node = node.left;
             }
         }
+
 
 
         /**
@@ -197,6 +199,9 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
             return current.value;
 
         }
+
+
+
 
 
         /**
@@ -250,6 +255,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
         // TODO
         throw new NotImplementedError();
     }
+
 
     /**
      * Найти множество всех элементов больше или равных заданного
