@@ -178,7 +178,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Средняя
          */
 
-        //Сложность: O(h), рексурсоемкость: O(1), h - количество узлов в дереве
+        //Сложность: O(1), рексурсоемкость: O(1)
         @Override
         public boolean hasNext() {
             if (list.isEmpty()) return false;
@@ -189,7 +189,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
-        //Сложность: O(h), рексурсоемкость: O(1), h - количество узлов в дереве
+        //Сложность: O(h), рексурсоемкость: O(1), h - высота дерева
         @Override
         public T next() {
             current = list.getFirst();
@@ -208,7 +208,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Удаление следующего элемента
          * Сложная
          */
-        //Сложность: O(h), рексурсоемкость: O(1), h - количество узлов в дереве
+        //Сложность: O(h), рексурсоемкость: O(1), h - высота дерева
         @Override
         public void remove() {
             root = del(root, current);
