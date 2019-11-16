@@ -155,7 +155,6 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     }
 
     public class BinaryTreeIterator implements Iterator<T> {
-
         private LinkedList<Node<T>> list = new LinkedList<>();
         private Node<T> current = null;
 
@@ -179,7 +178,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Средняя
          */
 
-        //Сложность: O(N), рексурсоемкость: O(1)
+        //Сложность: O(h), рексурсоемкость: O(1), h - количество узлов в дереве
         @Override
         public boolean hasNext() {
             if (list.isEmpty()) return false;
@@ -190,7 +189,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
-        //Сложность: O(N), рексурсоемкость: O(1)
+        //Сложность: O(h), рексурсоемкость: O(1), h - количество узлов в дереве
         @Override
         public T next() {
             current = list.getFirst();
@@ -204,11 +203,12 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
 
 
 
+
         /**
          * Удаление следующего элемента
          * Сложная
          */
-        //Сложность: О(h), ресурсоемкость: O(1)
+        //Сложность: O(h), рексурсоемкость: O(1), h - количество узлов в дереве
         @Override
         public void remove() {
             root = del(root, current);
