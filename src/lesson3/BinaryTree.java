@@ -170,6 +170,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                 node = node.left;
             }
         } //ресурсоемкость: O(h)
+        //сложность у linkedList вставки и удаления O(1), но так как есть while: O(1)*h = O(h)
 
 
 
@@ -189,13 +190,12 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
-        //Сложность: O(1), ресурсоемкость: O(h), h - высота дерева
-        //сложность константна, так методы вставки и удаления осуществляются за константное время
+        //Сложность: O(h), ресурсоемкость: O(h), h - высота дерева
         @Override
         public T next() {
-            current = list.getFirst();
-            list.removeFirst();
-            addToList(current.right);
+            current = list.getFirst(); //Сложность: O(1)
+            list.removeFirst();//Сложность: O(1)
+            addToList(current.right); //Сложность: O(h)
             return current.value;
 
         }
