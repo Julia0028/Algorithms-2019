@@ -169,7 +169,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                 list.addFirst(node);
                 node = node.left;
             }
-        }
+        } //ресурсоемкость: O(h)
 
 
 
@@ -189,7 +189,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
-        //Сложность: O(h), рексурсоемкость: O(1), h - высота дерева
+        //Сложность: O(1), ресурсоемкость: O(h), h - высота дерева
+        //сложность константна, так методы вставки и удаления осуществляются за константное время
         @Override
         public T next() {
             current = list.getFirst();
@@ -208,7 +209,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Удаление следующего элемента
          * Сложная
          */
-        //Сложность: O(h), рексурсоемкость: O(1), h - высота дерева
+        //Сложность: O(h), ресурсоемкость: O(1), h - высота дерева
         @Override
         public void remove() {
             root = del(root, current);
