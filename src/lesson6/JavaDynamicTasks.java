@@ -2,7 +2,7 @@ package lesson6;
 
 import kotlin.NotImplementedError;
 
-import java.util.List;
+import java.util.*;
 
 @SuppressWarnings("unused")
 public class JavaDynamicTasks {
@@ -19,8 +19,31 @@ public class JavaDynamicTasks {
      * При сравнении подстрок, регистр символов *имеет* значение.
      */
     public static String longestCommonSubSequence(String first, String second) {
-        throw new NotImplementedError();
+        if (first.isEmpty() || second.isEmpty()) return "";
+        StringBuilder res = new StringBuilder();
+        int[][] len = new int[first.length() + 1][second.length() + 1];
+        for (int i = 1; i < first.length() + 1; i++) {
+            for (int j = 1; j < second.length() + 1; j++) {
+                if (first.charAt(i - 1) != second.charAt(j - 1)) len[i][j] = Math.max(len[i - 1][j], len[i][j - 1]);
+                else len[i][j] = len[i - 1][j - 1] + 1;
+            }
+        }
+        subSequence(len.length - 1, len[0].length - 1, len, first, second, res);
+        return res.reverse().toString();
     }
+
+
+    private static void subSequence(int i, int j, int[][] len, String first, String second, StringBuilder res) {
+        if (i == 0 || j == 0) return;
+        if (first.charAt(i - 1) == second.charAt(j - 1)) {
+            res.append(second.charAt(j - 1));
+            subSequence(i - 1, j - 1, len, first, second, res);
+        } else {
+            if (len[i - 1][j] >= len[i][j-1]) subSequence(i - 1, j, len, first, second, res);
+            else subSequence(i, j - 1, len, first, second, res);
+        }
+    }
+
 
     /**
      * Наибольшая возрастающая подпоследовательность
@@ -35,8 +58,46 @@ public class JavaDynamicTasks {
      * В примере ответами являются 2, 8, 9, 12 или 2, 5, 9, 12 -- выбираем первую из них.
      */
     public static List<Integer> longestIncreasingSubSequence(List<Integer> list) {
-        throw new NotImplementedError();
+        List<Integer> res = new ArrayList<>();
+        if (list.isEmpty()) return res;
+        int[] len = new int[list.size()];
+        int max = -1;
+        int indMax = 0;
+        for (int i = 1; i < list.size(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (list.get(i) > list.get(j) && len[j] > max) {
+                    max = len[j];
+                    len[i] = max + 1;
+                }
+            }
+            max = -1;
+        }
+    max = len[0];
+    for (int i = 0; i < list.size(); i++) {
+        if (len[i]> max) {
+            max = len[i];
+            indMax = i;
+        }
     }
+    int a = indMax;
+    int b = 0;
+    res.add(list.get(indMax));
+    while (b != a) {
+        for (int i = 0; i < a; i++) {
+            if (list.get(i) < list.get(indMax) && len[indMax] - len[i] == 1) {
+                res.add(list.get(i));
+                indMax = i;
+                break;
+            }
+        }
+        b++;
+    }
+    Collections.reverse(res);
+    return res;
+    }
+
+
+
 
     /**
      * Самый короткий маршрут на прямоугольном поле.
