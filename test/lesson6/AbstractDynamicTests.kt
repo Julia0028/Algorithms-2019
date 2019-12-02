@@ -9,6 +9,10 @@ abstract class AbstractDynamicTests {
         assertEquals("13", longestCommonSubSequence("123", "13"))
         assertEquals("здс", longestCommonSubSequence("здравствуй мир", "мы здесь"))
         assertEquals("emt ole", longestCommonSubSequence("nematode knowledge", "empty bottle"))
+        //тесты
+        assertEquals("", longestCommonSubSequence("java", ""))
+        assertEquals("lllllllll", longestCommonSubSequence("lllllllll", "lllll5555llll"))
+        assertEquals("64432", longestCommonSubSequence("678744788832", "553364432979"))
         val expectedLength = "e kerwelkkd r".length
         assertEquals(
             expectedLength, longestCommonSubSequence(
@@ -53,6 +57,21 @@ abstract class AbstractDynamicTests {
                     23, 76, 34, 93, 123, 21, 56, 87, 91, 12, 45, 98, 140, 12, 5, 38, 349, 65, 94,
                     45, 76, 15, 99, 100, 88, 84, 35, 88
                 )
+            )
+        )
+        //тесты
+        assertEquals(listOf(0), longestIncreasingSubSequence(listOf(0, 0, 0, 0, 0, 0, 0)))
+        //так как последовательность убывающая, мы имеем 7 возрастающих подпоследовательности размером 1
+        //по условию задачи должны получить ту, которая расположена раньше, т. е. 7
+        assertEquals(listOf(7), longestIncreasingSubSequence(listOf(7, 6, 5, 4, 3, 2, 1)))
+        assertEquals(
+            listOf(53, 65, 234, 532, 666, 1000), longestIncreasingSubSequence(
+                listOf(53, 65, 234, 532, 455, 666, 1000, 13)
+            )
+        )
+        assertEquals(
+            listOf(13, 14, 17, 25, 40), longestIncreasingSubSequence(
+                listOf(13, 20, 14, 17, 25, 40)
             )
         )
     }
